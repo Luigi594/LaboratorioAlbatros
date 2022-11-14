@@ -101,15 +101,37 @@ namespace Presentacion
         {
             try
             {
-                cliente.Nombre = txtNombreCliente.Text.ToString();
-                cliente.Rtn = txtRtn.Text.ToString();
-                cliente.Direccion = txtDireccion.Text.ToString();
-                
-                cliente.EditarCliente(id_cliente);
-                MessageBox.Show("El registro se modificó correctamente", "Cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ListarClientes();
-                LimpiarTextos();
-                btnAgregar.Enabled = true;
+                if (txtNombreCliente.Text == "" || txtDireccion.Text == "" || txtRtn.Text == "")
+                {
+                    MessageBox.Show("Es necesario llenar todos los espacios", "Cliente", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                else if (txtNombreCliente.Text.Length < 3)
+                {
+                    MessageBox.Show("Ingresar nombre completo del cliente", "Cliente", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtNombreCliente.Focus();
+                }
+                else if (txtRtn.Text.Length < 14)
+                {
+                    MessageBox.Show("Ingresar RTN completo", "Cliente", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtRtn.Focus();
+                }
+                else if (txtDireccion.Text.Length < 8)
+                {
+                    MessageBox.Show("Ingresar direccion válida", "Cliente", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtDireccion.Focus();
+                }
+                else
+                {
+                    cliente.Nombre = txtNombreCliente.Text.ToString();
+                    cliente.Rtn = txtRtn.Text.ToString();
+                    cliente.Direccion = txtDireccion.Text.ToString();
+
+                    cliente.EditarCliente(id_cliente);
+                    MessageBox.Show("El registro se modificó correctamente", "Cliente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ListarClientes();
+                    LimpiarTextos();
+                    btnAgregar.Enabled = true;
+                }
             }
             catch (Exception error)
             {

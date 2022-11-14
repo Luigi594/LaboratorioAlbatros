@@ -50,14 +50,31 @@ namespace Presentacion
         {
             try
             {
-                producto.Descripcion = txtProducto.Text.ToString();
-                producto.Precio = txtPrecio.Text.ToString();
-                producto.Id_impuesto = Convert.ToInt32(cmbImpuesto.SelectedValue);
-                
-                producto.InsertarNuevoProducto();
-                MessageBox.Show("El producto se agregó correctamente", "Productos", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ListarProductos();
-                LimpiarTextos();
+                if (txtProducto.Text == "" || txtPrecio.Text == "" || cmbImpuesto.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Es necesario llenar todos los espacios", "Producto", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                else if (txtProducto.Text.Length < 3)
+                {
+                    MessageBox.Show("Ingresar descripcioni del producto", "Producto", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtProducto.Focus();
+                }
+                else if (txtPrecio.Text.Length < 5)
+                {
+                    MessageBox.Show("Ingresar un precio válido", "Producto", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtPrecio.Focus();
+                }
+                else
+                {
+                    producto.Descripcion = txtProducto.Text.ToString();
+                    producto.Precio = txtPrecio.Text.ToString();
+                    producto.Id_impuesto = Convert.ToInt32(cmbImpuesto.SelectedValue);
+
+                    producto.InsertarNuevoProducto();
+                    MessageBox.Show("El producto se agregó correctamente", "Productos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ListarProductos();
+                    LimpiarTextos();
+                }
             }
             catch (Exception error)
             {
